@@ -4,12 +4,17 @@ phases:
   install:
     runtime-versions:
       python: 3.9
+    commands:
+      - pip install -r requirements.txt  # Install dependencies
+      - pip install pytest               # Install pytest for testing
   build:
+    commands:
+      - echo "Running tests..."
+      - pytest index.py            # Run unit tests
+  post_build:
     commands:
       - echo "Zipping Lambda function..."
       - zip -r lambda.zip .
-  post_build:
-    commands:
       - echo "Deploying Lambda function..."
       - aws lambda update-function-code --function-name VisitorCounterLambda --zip-file fileb://lambda.zip
 
