@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+  build:
+    commands:
+      - echo "Zipping Lambda function..."
+      - zip -r lambda.zip .
+  post_build:
+    commands:
+      - echo "Deploying Lambda function..."
+      - aws lambda update-function-code --function-name VisitorCounterLambda --zip-file fileb://lambda.zip
+
+artifacts:
+  files:
+    - lambda.zip
